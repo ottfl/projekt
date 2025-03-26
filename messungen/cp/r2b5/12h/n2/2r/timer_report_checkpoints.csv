@@ -1,0 +1,4 @@
+name,# calls,t_min,min rank,t_avg,t_max,max rank,total min (s),total min rank,total max (s),total max rank,total avg (s),# PEs
+model_init,2,0.00014s,[1],0.00021s,0.00028s,[0],0.000,[1],0.000,[0],0.000,2
+write_restart,42,0.80883s,[1],1.2753s,2.5467s,[0],26.780,[1],26.782,[0],26.781,2
+write_restart_communication,3484,0.00000s,[0],0.35156s,31.7435s,[1],608.112,[1],616.723,[0],612.418,2

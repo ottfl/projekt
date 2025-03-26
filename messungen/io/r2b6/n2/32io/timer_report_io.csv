@@ -1,0 +1,3 @@
+name,# calls,t_min,min rank,t_avg,t_max,max rank,total min (s),total min rank,total max (s),total max rank,total avg (s),# PEs
+wrt_output,1233,0.00000s,[19],2.4426s,10.9449s,[22],80.702,[9],107.110,[16],94.115,32
+model_init,32,0.00017s,[6],0.00037s,0.00088s,[0],0.000,[6],0.001,[0],0.000,32

@@ -1,0 +1,4 @@
+name,# calls,t_min,t_avg,t_max,total min (s),total max (s),total avg (s)
+model_init,1,0.00034s,0.00034s,0.00034s,0.000,0.000,0.000
+write_restart,21,0.76263s,1.5411s,2.6355s,32.364,32.364,32.364
+write_restart_communication,3462,0.00000s,0.53187s,01m38s,1841.342,1841.342,1841.342

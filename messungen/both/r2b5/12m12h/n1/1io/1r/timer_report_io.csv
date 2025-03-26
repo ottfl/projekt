@@ -1,0 +1,3 @@
+name,# calls,t_min,t_avg,t_max,total min (s),total max (s),total avg (s)
+wrt_output,1202,0.00000s,0.64853s,8.0221s,779.527,779.527,779.527
+model_init,1,0.00055s,0.00055s,0.00055s,0.001,0.001,0.001

@@ -1,0 +1,80 @@
+icon-wiki:
+  type: web
+  title: ICON (Wettervorhersagemodell)
+  url: {value: https://de.wikipedia.org/wiki/ICON_(Wettervorhersagemodell), date: 2024-06-13}
+  
+icon-dwd:
+  type: web
+  title: Numerische Modellvorhersagedaten
+  url: {value: https://www.dwd.de/DE/leistungen/modellvorhersagedaten/modellvorhersagedaten.html, date: 2024-06-13}
+
+icon-icosa-symbol:
+  type: web
+  title: Icon Icosahedral Grid Symbol
+  url: {value: https://wisskomm.social/system/media_attachments/files/111/851/268/526/771/323/original/743ef520429e4901.png, date: 2024-06-13}
+
+lustre:
+  type: misc
+  title: Introduction to Lustre Architecture
+  url: {value: https://wiki.lustre.org/images/6/64/LustreArchitecture-v4.pdf, date: 2024-06-15}
+
+levante-config:
+  type: web
+  title: Levante HPC System
+  url: {value: https://docs.dkrz.de/doc/levante/index.html, date: 2024-06-15}
+
+oak-ridge-io-intro:
+  type: web
+  title: Introduction to HPC Parallel I/O
+  author:
+    - Wang, Feiyi
+    - Oral, Sarp
+  organization: Technology Integration Group, Oak Ridge National Laboratory
+  url: {value: https://www.emsl.pnnl.gov/MSC/UserGuide/_downloads/db39408d8695c108b8e95ae64aa3acd4/2016_HPC_IO_Intro.pdf, date: 2024-06-15}
+
+argonne-io-intro:
+  type: web
+  title: A Brief Introduction to HPC I/O
+  author: 
+    - Zamora, Richard J
+  organization: Data Science Group, Argonne National Laboratory
+  url: {value: https://indico.fnal.gov/event/18091/contributions/45649/attachments/28369/35073/HEPIOworkshop-Zamora.pdf, date: 2024-06-15}
+
+typst-temp:
+  type: web
+  title: simple-typst-thesis
+  url: {value: https://github.com/zagoli/simple-typst-thesis/tree/main?tab=Apache-2.0-1-ov-file, date: 2024-06-15}
+
+namelist-overview:
+  type: web
+  title: ICON Namelist Overview
+  url:
+    value: https://gitlab.dkrz.de/icon/icon-model/-/blob/release-2024.01-public/doc/Namelist_overview.pdf
+    date: 2024-06-15
+
+icon-tutorial-mpim:
+  type: web
+  title: Working with the ICON Model
+  url: 
+    value: https://code.mpimet.mpg.de/attachments/download/19568/ICON_tutorial_2019.pdf
+    date: 2024-06-17
+
+io-in-climate-modelling:
+  type: web
+  title: IO in Climate Modelling
+  author: Adamidis, Panagiotis
+  organization: DKRZ
+  url: 
+    value: https://events.dkrz.de/event/62/contributions/393/attachments/83/163/IO-in-Climate_Modelling.pdf
+    date: 2024-06-21
+
+zwischenpraes:
+  url: https://drive.google.com/drive/folders/1BrKpG6okxpxg1OIGm7TWybxBo1OYLEgK?usp=sharing
+  type: web
+  author: Ott, Florian
+
+farrell:
+  type: web
+  title: Shared File Performance Improvements
+  author: Farrell, Patrick
+  url: https://wiki.lustre.org/images/f/f9/Shared-File-Performance-in-Lustre_Farrell.pdf
