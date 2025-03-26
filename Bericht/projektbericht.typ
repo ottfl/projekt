@@ -213,7 +213,7 @@ Deutlich wird, dass das asynchrone IO, d.h. `num_io_procs > 0`, die Performance 
 #figure(image("messungen/messzeiten_messungen_io_r2b5_12m_n1.png"), supplement: [Abb.]) <io-3>
 #figure(image("messungen/messzeiten_messungen_io_r2b5_12m_n2.png"), supplement: [Abb.]) <io-4>
 
-
+...
 #figure(image("messungen/messzeiten_messungen_io_r2b6_n1.png"),supplement: [Abb.]) <io-1>
 #figure(image("messungen/messzeiten_messungen_io_r2b6_n2.png"), supplement: [Abb.]) <io-2>
 #figure(image("messungen/messzeiten_messungen_io_r2b6_n4.png"), supplement: [Abb.]) <io-3>
