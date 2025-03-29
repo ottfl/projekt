@@ -6,7 +6,7 @@ import os
 This script processes log files to extract timer reports from ICON LOG files and save them as CSV files.
 """
 
-base_folder = "/home/fott/UniZeug/projekt/projekt/messungen/io/r2b5/12m/n1/"
+base_folder = "./messungen/io/r2b5/12m/n1"
 
 data = []
 
@@ -35,11 +35,13 @@ def compute_average(log_lines):
     # Extract all timestamps
     timestamps = []
     output_times = []
+    output_count = 0
     for line in log_lines:
         if (match := re.search(pattern_step, line)):
             timestamps.append(match.group(1))
         elif (match := re.search(pattern_output, line)):
             output_times.append(re.findall(r'\d+.?\d*', line))
+            output_count += 1
 
     # Convert timestamps to datetime objects
     time_format = "%Y%m%d %H%M%S.%f"
@@ -63,7 +65,7 @@ def compute_average(log_lines):
     write_mbs = [float(x[5]) for x in output_times]
     write_mbs_avg = sum(write_mbs) / len(write_mbs) if len(write_mbs) > 0 else 0
 
-    return (*[average_duration, output_size_avg, time_get_avg, get_mbs_avg, time_write_avg, write_mbs_avg],)
+    return (*[average_duration, output_size_avg, time_get_avg, get_mbs_avg, time_write_avg, write_mbs_avg, sum(output_sizes), output_count],)
 
 
 for dirpath, dirnames, filenames in os.walk(base_folder):
@@ -83,12 +85,12 @@ data.sort(key=lambda x: int(re.match(r'\d+', x[0]).group()))
 output_filename = "timestamp_results.txt"
 target = os.path.join(base_folder, output_filename)
 with open(target, 'w') as output_file:
-    output_file.write(f"{'# dedicated PEs':<15}{'avg time step (s)':<17}{'avg output MB':<17}{'Time get avg (s)':<17}{'Get MB/s avg':<17}{'Time write avg (s)':<17}{'Write MB/s avg':<17}\n")
+    output_file.write(f"{'# dedicated PEs':<15}{'avg time step (s)':<17}{'avg output MB':<17}{'Time get avg (s)':<17}{'Get MB/s avg':<17}{'Time write avg (s)':<17}{'Write MB/s avg':<17}{'Output size sum':<17}{'Output count':<17}\n")
     output_file.write("=" * 110 + "\n")
     
     for i in range(len(data)):
         output_file.write(
-            f"{data[i][0]:<15}{data[i][1]:<17.4f}{data[i][2]:<17.4f}{data[i][3]:<17.4f}{data[i][4]:<17.4f}{data[i][5]:<17.4f}{data[i][6]:<17.4f}\n"
+            f"{data[i][0]:<15}{data[i][1]:<17.4f}{data[i][2]:<17.4f}{data[i][3]:<17.4f}{data[i][4]:<17.4f}{data[i][5]:<17.4f}{data[i][6]:<17.4f}{data[i][7]:<17.4f}{data[i][8]:<17.4f} \n"
         )
 
 # Save results of get mb/s and write mb/s to a csv with #dedicated PEs as index
