@@ -6,13 +6,15 @@ import os
 This script processes log files to extract timer reports from ICON LOG files and save them as CSV files.
 """
 
-base_folder = "./messungen/io/r2b6/n8"
+base_folder = "./messungen/cp/r2b6/12h/n16"
 
 data = []
 
 # Define the regex pattern to extract timestamps between brackets
 pattern_step = r'\[(\d{8} \d{6}\.\d{3})\](?= Time step:)'
-pattern_output = r'(^.*\d+:  Got)'
+# pattern_output = r'(^.*\d+:  Got)' # for IO files
+pattern_output = r'(^.*\d+:  Checkpointing: Got)' # for CP files
+
 
 def compute_average(log_lines):
 
@@ -85,7 +87,7 @@ data.sort(key=lambda x: int(re.match(r'\d+', x[0]).group()))
 output_filename = "timestamp_results.txt"
 target = os.path.join(base_folder, output_filename)
 with open(target, 'w') as output_file:
-    output_file.write(f"{'# dedicated PEs':<15}{'avg time step (s)':<17}{'avg output MB':<17}{'Time get avg (s)':<17}{'Get MB/s avg':<17}{'Time write avg (s)':<17}{'Write MB/s avg':<17}{'Output size sum':<17}{'Output count':<17}\n")
+    output_file.write(f"{'# dedicated PEs':<15}{'avg time step (s)':<17}{'avg CP MB':<17}{'Time get avg (s)':<17}{'Get MB/s avg':<17}{'Time write avg (s)':<17}{'Write MB/s avg':<17}{'Output size sum':<17}{'Output count':<17}\n")
     output_file.write("=" * 110 + "\n")
     
     for i in range(len(data)):

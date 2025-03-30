@@ -4,7 +4,7 @@
 BASE_DIR=$(pwd)
 
 # Find all files named 'messzeiten.png' and process them
-find . -type f -name "messzeiten.png" | while read -r file; do
+find . -type f -name "*messzeiten.png" | while read -r file; do
     # Get the relative path and replace '/' with '_'
     relative_path=$(dirname "${file#./}")
     sanitized_path=$(echo "$relative_path" | tr '/' '_')
