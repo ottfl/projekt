@@ -6,7 +6,7 @@ import os
 This script processes log files to extract timer reports from ICON LOG files and save them as CSV files.
 """
 
-base_folder = "./messungen/io/r2b5/12m/n1"
+base_folder = "./messungen/io/r2b6/n8"
 
 data = []
 
