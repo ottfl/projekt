@@ -167,36 +167,26 @@ Für die Untersuchung bezüglich des IO-Verhaltens wurden folgende Parameterkomb
 - 80km Grid, 12min Output Intervall, 2 Knoten, davon je 0, 1, 2, 4, 8, 16, 32 IO Prozesse
 - 40km Grid, 12min Output Intervall, 1 Knoten, davon je 0, 1, 2, 4, 8, 16, 32 IO Prozesse
 - 40km Grid, 12min Output Intervall, 2 Knoten, davon je 0, 1, 2, 4, 8, 16, 32 IO Prozesse
+- 40km Grid, 12min Output Intervall, 4 Knoten, davon je 0, 1, 2, 4, 8, 16, 32 IO Prozesse
 - 40km Grid, 12min Output Intervall, 8 Knoten, davon je 0, 1, 2, 4, 8, 16, 32 IO Prozesse
 Dabei wurde die Anzahl der IO Prozesse schrittweise erhöht, um die Auswirkungen auf die Performance zu untersuchen. Für alle Durchläufe wurde das Intervall des Schreibens von Checkpoints auf 12 Tage gesetzt, sodass keine geschrieben wurden und das Ergebnis nicht beeinflussen konnten.
 
 Für die Untersuchung bezüglich des Schreibens von Checkpoints wurden folgende Parameterkombinationen getestet: 
-- 80km Grid, 12m Checkpoint Intervall, 1 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
-- 80km Grid, 12m Checkpoint Intervall, 2 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
-- 80km Grid, 12m Checkpoint Intervall, 4 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
 - 80km Grid, 12h Checkpoint Intervall, 1 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
 - 80km Grid, 12h Checkpoint Intervall, 2 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
-- 80km Grid, 12h Checkpoint Intervall, 2 Knoten, Modus "joint procs multifile"
-- 80km Grid, 12h Checkpoint Intervall, 2 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse, Modus "dedicated procs multifile"
-- 40km Grid, 12h Checkpoint Intervall, 1 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
-- 40km Grid, 12h Checkpoint Intervall, 2 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
+- 80km Grid, 12m Checkpoint Intervall, 1, 2, 4 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
+- 80km Grid, 12m Checkpoint Intervall, 1, 2, 4 Knoten, Modus "joint procs multifile"
+- 80km Grid, 12m Checkpoint Intervall, 1, 2, 4 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse, Modus "dedicated procs multifile"
+- 40km Grid, 12h Checkpoint Intervall, 1, 2, 16 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse
+- 40km Grid, 12h Checkpoint Intervall, 16 Knoten, davon je 0, 1, 2, 4, 8 Restart Prozesse, Modus "dedicated procs multifile"
+- 40km Grid, 12m Checkpoint Intervall, 16 Knoten, Modus "joint procs multifile"
 Das Output Intervall wurde bei diesen Messungen auf 12 Tage gesetzt und überschritt somit den Experimentzeitraum, analog zum Vorgehen bei den IO Messungen. Soweit nicht anders angegeben war der angewendete Restart Modus immer "async", wobei bei 0 Restart Prozessen "sync" gewählt werden muss, da es sonst zu Fehlermeldungen kommt.
-
-Um zu sehen, wie sich die Einstellungen von IO und Restart aufeinander auswirken und sich zusammen verhalten wurden abschließend verschiedene Kombinationen getestet:
-- 80km Grid, 12m Output Intervall, 12h Checkpoint Intervall, 1 Knoten, 0 IO, je 1, 4, 8 Restart Prozesse
-- 80km Grid, 12m Output Intervall, 12h Checkpoint Intervall, 1 Knoten, 1 IO, je 1, 4, 8 Restart Prozesse
-- 80km Grid, 12m Output Intervall, 12h Checkpoint Intervall, 1 Knoten, 2 IO, je 1, 4, 8 Restart Prozesse
-- 80km Grid, 12m Output Intervall, 12h Checkpoint Intervall, 1 Knoten, 4 IO, je 1, 4, 8 Restart Prozesse
-- 80km Grid, 12m Output Intervall, 12h Checkpoint Intervall, 1 Knoten, 8 IO, je 1, 4, 8 Restart Prozesse
-#todo("ggf 12m12m Messungen machen")
 
 Die Auswertung erfolgt größtenteils auf Basis der Timer Reports innerhalb der Logfiles, welche anschließend automatisiert per Python-Skript #todo("quelle skript") ausgelesen und mit matplotlib visualisiert wurden. 
 Außerdem wurde Darshan genutzt, um das IO-Verhalten der Prozesse während der Laufzeit zu analysieren. Darshan ist ein skalierbares Tool zur Auswertung von IO-Operationen, welches minimale Auswirkungen auf die Performance hat und einfach zur Runtime im Jobskript aktiviert werden kann. Dazu reicht das Einfügen von `LD_PRELOAD=/pfad/zu/darshan/lib/libdarshan.so` in den Header des Skripts. Während der Durchführung des Experiments kam es zu Problemen bei der Erstellung der Darshan Logs, weshalb nach einiger Recherche zur Ursache dessen die Loghints des Tools mit `DARSHAN_LOGHINTS=` deaktiviert wurden.
 Zur Übersicht zu genutzter Rechenkapazität und Bandwidth erfolgte außerdem eine grobe Analyse der Logs aus ClusterCockpit, welches Daten aus allen laufenden Jobs aus Levante zusammenträgt und clusterseitig eine Analyse ermöglicht.
 
 == Ergebnisse <messungen-ergebnisse>
-
-=== Allgemein
 
 === IO
 
@@ -236,32 +226,49 @@ Ein Problem kommt durch die Abweichung der Daten zwischen Darshan, CC und den Lo
 
 === Checkpoints
 
-Hier ist nochmal darauf hinzuweisen, dass nur das Schreiben von Checkpoints betrachtet wird, nicht das eigentliche Restarten, allerdings wird ersteres auch durch die Einstellung der Restart Procs beeinflusst, nicht durch die IO Procs. Die Messungen zu den Checkpoints zeigen ein etwa ähnliches Bild wie die zu den IO Prozessen. Weiter unten werden alle entsprechenden Graphiken aufgelistet, welche ähnlich zu lesen sind wie die obenstehenden. Ein Unterschied ist hier, dass zwischen verschiedenen Restart-Modi (siehe @fpp) unterschieden wird. In den Graphen für die Messungen des "dedicated procs multifile" Modus ist neben den Balken für unterschiedlichen Runs auch noch die Messung zum "joint procs multifile" Modus inkludiert, da dieser, wie in der Beschreibung schon spezifiziert, nicht über dezidierte IO Prozesse läuft, sondern jeder Prozess als IO Prozess fungiert und somit die Einstellung der Anzahl der Restart Procs wegfällt. Die Daten zu den Runs mit 0 Restart Prozessen bei den "async" und "dedicated" Modi sind dieselben, da bei beiden der Run eigentlich mit dem "sync" Modus durchgeführt wird. Die Messungen wurden - abgesehen von den "joint" Messungen - mit 0, 1, 2, 4, 8 Restart Procs durchgeführt. 
+Hier ist nochmal darauf hinzuweisen, dass nur das Schreiben von Checkpoints betrachtet wird, nicht das eigentliche Restarten, allerdings wird ersteres auch durch die Einstellung der Restart Procs beeinflusst, nicht durch die IO Procs. Die Messungen zu den Checkpoints zeigen ein etwa ähnliches Bild wie die zu den IO Prozessen. Weiter unten werden alle entsprechenden Graphiken aufgelistet, welche ähnlich zu lesen sind wie die obenstehenden. Ein Unterschied ist hier, dass zwischen verschiedenen Restart-Modi (siehe @fpp) unterschieden wird. In den Graphen für die Messungen des "dedicated procs multifile" Modus ist neben den Balken für unterschiedlichen Runs auch noch die Messung zum "joint procs multifile" Modus inkludiert, da dieser, wie in der Beschreibung schon spezifiziert, nicht über dezidierte IO Prozesse läuft, sondern jeder Prozess als IO Prozess fungiert und somit die Einstellung der Anzahl der Restart Procs wegfällt. Die Daten zu den Runs mit 0 Restart Prozessen bei den "async" und "dedicated" Modi sind dieselben, da bei beiden der Run eigentlich mit dem "sync" Modus durchgeführt wird. Außerdem wird bei den Logs bei Nutzung des "dedicated" Modus keine Differenzierung zwischen get und write mehr vorgenommen, weshalb nur noch ein Balken in den jeweils rechten Graphen abgebildet wird. Die Messungen wurden - abgesehen von den "joint" Messungen - mit 0, 1, 2, 4, 8 Restart Procs durchgeführt. 
 
 #wrap-content(figure(image("messungen/darshan80kmCP12h.png", width: 130%)), align: bottom + left)[Zunächst zu den Runs auf dem 80 km Grid. Bei einem Checkpointintervall von 12 Stunden ist deutlich an den write-Zeiten zu sehen, dass das Schreiben der Checkpoints zu infrequent für eine tatsächliche Be- oder Überlastung ist. Tatsächlich wurden bei Darshan auch nur 17,23 GiB geschriebener Output registriert, kumuliert in den von ICON generierten Logs \~16,7GiB. Folglich nimmt die absolute Rechenzeit bei den Messungen mit nur einem Knoten auch eher zu bei steigender Anzahl an Restart Procs. Erst bei 2 Knoten kann man eine leichte Verbesserung der Laufzeit sehen.]
 Hier wird schon eine der ersten zentralen Beobachtungen sichtbar, die besonders hervorgehoben werden sollen: das Striping, bzw. das Partitionieren des Outputs gilt nicht für das Schreiben der Checkpoints. Im "async" Modus (welcher selbst im Tutorial von 2019 @icon-tutorial-mpim als "alt" bezeichnet wird) schreibt immer nur ein einzelner Prozess asynchron zu den workern. Das gute dabei ist, dass die worker weiterrechnen können, ohne auf das Schreiben der Checkpoints zu warten - gleichzeitig ist die Performance dadurch stark beschränkt. Deutlicher wird dies bei den Messungen zu dem 12-minütigen Checkpointintervall.
 #figure(image("messungen/r2b5_12h_n1messzeiten.png"), supplement: [Abb.])
 #figure(image("messungen/r2b5_12h_n2messzeiten.png"), supplement: [Abb.])
 
-#wrap-content(figure(image("messungen/darshanHeatmap_CP_r2b5_12h_n1_4r.png")), align: top + right)[Zieht man die nebenstehende Heatmap aus dem Darshan Log zu Rate, ]
+#wrap-content(figure(image("messungen/darshanHeatmap_CP_r2b5_12h_n1_4r.png", width: 110%), caption: [Heatmap Checkpoint-IO 80km Grid, 12h Intervall, 1 Knoten, 4 Restart Procs], supplement: "Abb."), align: top + right)[Zieht man die nebenstehende Heatmap aus dem Darshan Log zu Rate, betont die durchgezogene rote Linie das serielle Schreiben eines einzelnen Prozesses, obwohl eigentlich 4 Prozesse als Restart Procs dienen sollten. Insgesamt wurden in der 12 min Variante, gemessen in Darshan, knapp 850 GiB Daten geschrieben, also schon wesentlich mehr als bei den 12h Intervallen. Dies stellt sich auch in den nachstehenden Graphen dar. 
+Im Modus "async" kann schon mit einem zusätzlichen Restart Prozess eine Verbesserung der Laufzeit erreicht werden, auch im "dedicated" Modus ist mehr als eine Halbierung der Laufzeit möglich.] Dabei wird bei letzterem auch mit Erhöhung der Zahl der Restart Procs keine wirklich signifikante weitere Optimierung mehr umgesetzt. Bei Nutzung des "joint" Modus wird in dieser Konfiguration eine ähnliche Zeit erreicht wie bei den "async" und "dedicated" Modi. Die Erhöhung der Rechenknoten auf 2 bedingt zunächst einen Anstieg der Gesamtrechenzeit bei synchronem IO im Vergleich zu dem sychronen Schreiben mit nur einem Knoten. Selbiges gilt für den Run mit 4 Knoten. Im "async" Modus ist die Laufzeit insgesamt begrenzt - es gibt keine Möglichkeit, diese weiter unter die etwa 1700s zu bekommen. Beide anderen Restart Modi weisen eine deutlich bessere Performance auf, wobei jeweils die Durchläufe mit vielen Restart Procs im "dedicated" Modus noch eine leichte Verbesserung gegenüber den jeweiligen Läufen im "joint" Modus aufweisen. 
 #figure(image("messungen/r2b5_12m_n1messzeiten.png"), supplement: [Abb.])
 #figure(image("messungen/r2b5_12m_n1dedicatedmesszeiten.png"), supplement: [Abb.])
 #figure(image("messungen/r2b5_12m_n2messzeiten.png"), supplement: [Abb.])
 #figure(image("messungen/r2b5_12m_n2dedicatedmesszeiten.png"), supplement: [Abb.])
 #figure(image("messungen/r2b5_12m_n4messzeiten.png"), supplement: [Abb.])
 #figure(image("messungen/r2b5_12m_n4dedicatedmesszeiten.png"), supplement: [Abb.])
-#figure(image("messungen/darshan80kmCP12masync.png"), supplement: [Abb.])
-#figure(image("messungen/darshan80kmCP12mded.png"), supplement: [Abb.])
+#figure(
+    grid(
+        columns: 2,     // 2 means 2 auto-sized columns
+        gutter: 2mm,    // space between columns
+        image("messungen/darshan80kmCP12masync.png"),
+        image("messungen/darshan80kmCP12mded.png"),
+    ),
+    supplement: "Abb."
+) <darshan-perf-r2b5-cp>
+Die IO Performance, welche Darshan misst, ist bei den "async" Messungen einigermaßen gleichbleibend, sobald die Anzahl der Restart Procs auf mindestens 1 erhöht wird. Auffällig ist diese Metrik jedoch bei den beiden anderen Modi. Während im "dedicated" Modus erwartungsgemäß, da sich die Anzahl der Knoten, jedoch nicht der Restart Procs, erhöht, die Performance etwa gleichbleibend verläuft, tut sie dies trotz vermuteter Steigung im "joint" Modus ebenfalls (zumindest nicht mit der Verdopplung wie die Anzahl der Knoten) und liegt sowohl bei 1, 2 als auch 4 Knoten zwischen 10000 und etwa 13000 MiB/s. 
+Die entsprechenden Heatmaps zeigen gut die Verteilung der IO-Last auf alle Prozesse ("joint") oder nur auf die dezidierten Restart Prozesse ("dedicated").
+#figure(grid(columns: 2, gutter: 2mm,
+image("messungen/darshanHeatmap_CP_r2b5_12m_n1joint.png"),
+image("messungen/darshanHeatmap_CP_r2b5_12m_n1ded.png")), caption: [Heatmaps Checkpoint-IO 80km Grid, 12m Intervall, 1 Knoten, Modi "joint" (links) und "dedicated" (rechts)], supplement: "Abb."
+)
 
-r2b6 12h
+#wrap-content(figure(image("messungen/darshan40kmCP12hpng.png")))[Die Messungen zu dem 40km Grid sind mit 1 und 2 Knoten ähnlich geartet wie die auf dem 80km Grid mit 12h Intervall, da auch hier wieder eine sehr geringe Anzahl an Checkpoints geschrieben wird, und das Schreiben im Vergleich zum eigentlichen Rechnen kaum ins Gewicht fällt. Konträr dazu verhält es sich bei den Messungen mit 16 Knoten, bei denen die wrt_restart Zeit - bei 0 Restart Procs - fast die gesamte Laufzeit in Anspruch nimmt, und im asynchronen IO nur noch etwa ein Zehntel dessen beträgt.] 
+#wrap-content(figure(image("messungen/darshanHeatmap_CP_r2b6_12h_n16joint.png"), supplement: "Abb.", caption: [Heatmap Checkpoint-IO, 40km Grid, 12h Intervall, 16 Knoten, Modus "joint"]), align: left + bottom, <dings>)[Die get-Geschwindigkeit @dings #todo("kann ich das hier referenzieren???") ist bei den Restarts wesentlich höher als bei den eigentlichen Outputs, wobei sie mit zunehmender Anzahl an Knoten abnimmt. Die IO Performance laut Darshan bleibt bei dem 16 Knoten "joint" Durchlauf auch bei knapp über 12 MiB/s, vergleichbar mit den Runs auf dem 80km Grid. Von den anderen Runs auf dem 40km Grid ist nur im "dedicated" Modus eine Verbesserung der Performance im Zuge der Erhöhung der Restart Procs beobachtbar.] Die Größe der geschriebenen Files beträgt je nach genauer Konfiguration um die 70 GiB. 
 #figure(image("messungen/r2b6_12h_n1messzeiten.png"), supplement: [Abb.])
 #figure(image("messungen/r2b6_12h_n2messzeiten.png"), supplement: [Abb.])
 #figure(image("messungen/r2b6_12h_n16messzeiten.png"), supplement: [Abb.])
-#figure(image("messungen/darshan40kmCP12hpng.png"), supplement: [Abb.])
+#figure(image("messungen/r2b6_12h_n16dedicatedmesszeiten.png"), supplement: [Abb.])
 
+Ein paar Worte zu den Files, welche geschrieben werden, da diese Implikationen für die Nutzenden haben kann. Im "dedicated" Modus sind die eigentlichen Checkpoints als Ordner angelegt, in denen das Grid auf eine Anzahl an Files unterteilt ist, nämlich so viele wie Restart Prozesse. Gibt es 8 Restart Procs, gibt es auch 8 Files in jedem Checkpoint-Ordner, und jeder Prozess übernimmt einen eigenen Teil des Grids. Im "joint" Modus hingegen wird das Grid in so viele Teile unterteilt wie es worker Prozesse gibt, und jeder Prozess schreibt seinen Teil in den gemeinsamen Checkpoint-Ordner. Insgesamt werden also bei dem "dedicated" Modus weniger Files geschrieben, was für Anwendende leichter zu verarbeiten sein könnte. Die Frage ist an dem Punkt, wie einfach oder schwierig es ist, die Files wieder zusammenzuführen, um am Ende das komplette Grid wiederherzustellen. Da die Files aber ohnehin nur für den internen Restart genutzt werden und nicht für sich selbst zur weiteren Bearbeitung gedacht sind, ist dies vermutlich für diese Arbeit nicht von großem Interesse.
 
-
-=== Kombiniert
+Lustre
+Roofline?
+Messung zu r2b6 mit 1h int
 
 = Interpretation und Diskussion <interpretation>
 
