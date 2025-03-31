@@ -78,3 +78,9 @@ farrell:
   title: Shared File Performance Improvements
   author: Farrell, Patrick
   url: https://wiki.lustre.org/images/f/f9/Shared-File-Performance-in-Lustre_Farrell.pdf
+
+git:
+  type: web
+  title: Git Repository dieses Projekts
+  author: Ott, Florian
+  url: https://github.com/ottfl/projekt

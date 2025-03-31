@@ -61,7 +61,7 @@
 ) = {
   // Set the document's basic properties.
   set document(author: authors.map(a => a.name), title: title)
-  set text(font: "Linux Libertine", lang: "en", size: 12pt)
+  set text(font: "Libertinus Serif", lang: "en", size: 12pt)
   show math.equation: set text(weight: 400)
   set heading(numbering: "1.1")
   set par(justify: true)
@@ -110,7 +110,7 @@
   pagebreak()
 
   // Table of contents.
-  outline(depth: 3, indent: true, title: [Inhaltsverzeichnis])
+  outline(depth: 3, indent: auto, title: [Inhaltsverzeichnis])
   pagebreak()
 
 
